@@ -22,6 +22,11 @@ os.chdir(cwd)
 tags = ["nvidia"] if file in GPU else []
 
 script = f"""
+echo ---
+echo "$SSH_KEY"
+head -c10 "$SSH_KEY"
+echo ---
+
 julia -e '
   using Pkg
   Pkg.instantiate()
