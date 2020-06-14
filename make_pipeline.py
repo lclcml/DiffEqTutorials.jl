@@ -22,11 +22,6 @@ os.chdir(cwd)
 tags = ["nvidia"] if file in GPU else []
 
 script = f"""
-echo ---
-echo "$SSH_KEY"
-head -c10 "$SSH_KEY"
-echo ---
-
 julia -e '
   using Pkg
   Pkg.instantiate()
@@ -38,6 +33,8 @@ if [[ -z "$(git status -suno)" ]]; then
   exit 0
 fi
 
+k="$(cat $SSH_KEY)"
+echo "$k" > "$SSH_KEY"
 chmod 400 "$SSH_KEY"
 git config core.sshCommand "ssh -o StrictHostKeyChecking=no -i $SSH_KEY"
 git config user.name "github-actions[bot]"
